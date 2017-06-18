@@ -7,3 +7,7 @@ Macro and associated data storage to be able to keep track of rolls for things l
 Macro should be able select which skill your doing IE craft (alchemy) vs craft (gemcrafting), should be able to keep track of 
 multiple items being crafted simultaneously. Such as crafting sunrod, crafting tanglefoot bag, etc
 __________
+Macro to allow to store and view gm notes for a token using  properties on a lib token, like lib:notes, so that GM notes can be kept
+while still allowing players to save their tokens locally
+
+__________
