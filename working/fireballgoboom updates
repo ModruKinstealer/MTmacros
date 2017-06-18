@@ -1,0 +1,8 @@
+Fireball macro works however there are a couple updates it could use that I hadn't had a chance to do previously.
+Some of which were due to lack of campaign properties or other issues
+
+Feature request:
+Add support for spell "protection from fire", allow for other damage types. Probably better to build in a way to make a more general dmg 
+reduction to cover other spells that also block dmg similar to protection from Fire.
+
+Add support for dealing with tokens which are encumbered or wearing medium or heavy armor (all of which negate Evasion)
