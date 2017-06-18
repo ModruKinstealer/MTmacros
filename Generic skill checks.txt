@@ -1,0 +1,94 @@
+<!-- Getting list of skills from lib token-->
+[h: rayuntrainedskills = getLibProperty("rayuntrainedskills","lib:ray")]
+[h: rayskillsindex = json.fields(getLibProperty("rayskillsindex","lib:ray"))]
+
+<!-- Get selected token -->
+[h: selectedToken = getSelected()]
+
+<!-- getting String Property List with skills and their stat mods-->
+[h: statModList= getLibProperty("raySkillStat","lib:ray")]
+
+<!-- Use json object from lib token to populate drop down menu to choose which skill to check -->
+[h:status=input("skill|"+rayskillsindex+"|Select Skill|LIST|SELECT=0 VALUE=STRING")]
+[h:abort(status)]
+
+<!-- Rolling die and storing as variable to compare later -->
+[h: dieRoll = d20]
+
+<!-- modifying die roll for nat 1 and nat 20 -->
+[h,switch(dieRoll),CODE:
+case 20:
+{
+    [dieRoll = dieRoll +10]
+    [outputOpen = "<b><font color='blue'> Nat 20! <br>"]
+    [outputClose = "</b></font>"]
+};
+case 1:
+{
+    [dieRoll = dieRoll -10]
+    [outputOpen = "<b><font color='red'>Nat 1! <br>"]
+    [outputClose = "</b></font>"]
+};
+default:
+{
+    [outputOpen = ""]
+    [outputClose = ""]
+};]
+
+
+<!-- Modifying Knowledge skills because the switch cases below weren't matching with the parenthesis for some reason and couldn't figure out how to make it work-->
+
+[h: skill = replace(skill,"\\(","")]
+[h: skill = replace(skill,"\\)","")]
+[h: skill = replace(skill," ","")]
+[h: statMod = getStrProp(statModList,skill)]
+[h: statMod = getProperty(statMod,selectedToken)]
+
+<!-- Get other skill modifiers -->
+
+
+<!-- switch to match from drop down selection so we can specify the correct mods to add to the check -->
+[switch(skill),code:
+case "Craft":{
+	[h:skill= "Craft (Alchemy) [brewer, refiner, chemist]"]
+	};
+case "KnowledgeArcana":{
+	[h: skill = "Knowledge (Arcana)"] 
+	};
+case "KnowledgeBiology":{
+	[h: skill = "Knowledge (Biology)"] 
+	};
+case "KnowledgeGeography":{
+	[h: skill = "Knowledge (Geography)"] 
+	};
+case "KnowledgeHistory":{
+	[h: skill = "Knowledge (History) [Legends/Decipher Script]"] 
+	};
+case "KnowledgeLocal":{
+	[h: skill = "Knowledge (Local) [Aristocracy, Cityscape]"] 
+	};
+case "KnowledgeMerchant":{
+	[h: skill = "Knowledge (Merchant) [Economics, Contracts/Forgery, Merchant Kings]"] 
+	};
+case "KnowledgeMathmatics":{
+	[h: skill = "Knowledge (Mathmatics) [Architecture]"] 
+	};
+case "KnowledgeNature":{
+	[h: skill = "Knowledge (Nature)"] 
+	};
+case "KnowledgeReligion":{
+	[h:skill = "Knowledge (Religion)"] 
+	};
+case "KnowledgePlanes":{
+	[h: skill = "Knowledge (Planes)"] 
+	};
+case "Perform ":{
+	[h: skill = "Perform (String instrments)"] 
+	};
+case "Profession":{
+	[h: skill = "Profession (barkeep)"] 
+	};
+default: {}]
+
+
+{skill} check: {outputOpen} [dieRoll + statMod] {outputClose}

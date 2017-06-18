@@ -1,0 +1,143 @@
+[h: input(
+"CL | 5 | Caster Level | TEXT",
+"DC | 14 | DC | TEXT",
+"featdmg | None, Maximize, Empowered | MetaMagic Feat | RADIO | ORIENT=H SELECT=0",
+"EnergyType | Fire, Acid, Cold, Sonic, Electricity | Select Energy Type | RADIO | ORIENT=H SELECT=0",
+"featarea | 0 | Widened | CHECK"
+)]
+
+<!--- determine damage amount --->
+[h: DMG = roll(CL,6)]
+[h, if(featdmg==1): DMG=CL*6; DMG]
+[h, if(featdmg==2): DMG=DMG*1.5; DMG]
+
+
+<!------Get tokens ------>
+[H,if(featarea==0), CODE:
+{
+<!-- 20 foot radius burst--->
+[h: areaOffsets = '[
+{x:2, y:-1},{x:3, y:-1},
+{x:0, y:0},{x:1, y:0},{x:2, y:0},{x:3, y:0},{x:4, y:0},{x:5, y:0},
+{x:0, y:1},{x:1, y:1},{x:2, y:1},{x:3, y:1},{x:4, y:1},{x:5, y:1},
+{x:-1, y:2},{x:0, y:2},{x:1, y:2},{x:2, y:2},{x:3, y:2},{x:4, y:2},{x:5, y:2},{x:6, y:2},
+{x:-1, y:3},{x:0, y:3},{x:1, y:3},{x:2, y:3},{x:3, y:3},{x:4, y:3},{x:5, y:3},{x:6, y:3},
+{x:0, y:4},{x:1, y:4},{x:2, y:4},{x:3, y:4},{x:4, y:4},{x:5, y:4},
+{x:0, y:5},{x:1, y:5},{x:2, y:5},{x:3, y:5},{x:4, y:5},{x:5, y:5},
+{x:2, y:6},{x:3, y:6},
+]']
+};
+{
+<!-- 40 foot radius burst--->
+[H: areaOffsets = '[
+{x:2, y:-5},{x:3, y:-5},
+{x:0, y:-4},{x:1, y:-4},{x:2, y:-4},{x:3, y:-4},{x:4, y:-4},{x:5, y:-4},
+{x:-2, y:-3},{x:-1, y:-3},{x:0, y:-3},{x:1, y:-3},{x:2, y:-3},{x:3, y:-3},{x:4, y:-3},{x:5, y:-3},{x:6, y:-3},{x:7, y:-3},
+{x:-3, y:-2},{x:-2, y:-2},{x:-1, y:-2},{x:0, y:-2},{x:1, y:-2},{x:2, y:-2},{x:3, y:-2},{x:4, y:-2},{x:5, y:-2},{x:6, y:-2},{x:7, y:-2},{x:8, y:-2},
+{x:-3, y:-1},{x:-2, y:-1},{x:-1, y:-1},{x:0, y:-1},{x:1, y:-1},{x:2, y:-1},{x:3, y:-1},{x:4, y:-1},{x:5, y:-1},{x:6, y:-1},{x:7, y:-1},{x:8, y:-1},
+{x:-4, y:0},{x:-3, y:0},{x:-2, y:0},{x:-1, y:0},{x:0, y:0},{x:1, y:0},{x:2, y:0},{x:3, y:0},{x:4, y:0},{x:5, y:0},{x:6, y:0},{x:7, y:0},{x:8, y:0},{x:9,y :0},
+{x:-4, y:1},{x:-3, y:1},{x:-2, y:1},{x:-1, y:1},{x:0, y:1},{x:1, y:1},{x:2, y:1},{x:3, y:1},{x:4, y:1},{x:5, y:1},{x:6, y:1},{x:7, y:1},{x:8, y:1},{x:9, y:1},
+{x:-5, y:2},{x:-4, y:2},{x:-3, y:2},{x:-2, y:2},{x:-1, y:2},{x:0, y:2},{x:1, y:2},{x:2, y:2},{x:3, y:2},{x:4, y:2},{x:5, y:2},{x:6, y:2},{x:7, y:2},{x:8, y:2},{x:9, y:2},{x:10, y:2},
+{x:-5, y:3},{x:-4, y:3},{x:-3, y:3},{x:-2, y:3},{x:-1, y:3},{x:0, y:3},{x:1, y:3},{x:2, y:3},{x:3, y:3},{x:4, y:3},{x:5, y:3},{x:6, y:3},{x:7, y:3},{x:8, y:3},{x:9, y:3},{x:10, y:3},
+{x:-4, y:4},{x:-3, y:4},{x:-2, y:4},{x:-1, y:4},{x:0, y:4},{x:1, y:4},{x:2, y:4},{x:3, y:4},{x:4, y:4},{x:5, y:4},{x:6, y:4},{x:7, y:4},{x:8, y:4},{x:9, y:4},
+{x:-4, y:5},{x:-3, y:5},{x:-2, y:5},{x:-1, y:5},{x:0, y:5},{x:1, y:5},{x:2, y:5},{x:3, y:5},{x:4, y:5},{x:5, y:5},{x:6, y:5},{x:7, y:5},{x:8, y:5},{x:9, y:5},
+{x:-3, y:6},{x:-2, y:6},{x:-1, y:6},{x:0, y:6},{x:1, y:6},{x:2, y:6},{x:3, y:6},{x:4, y:6},{x:5, y:6},{x:6, y:6},{x:7, y:6},{x:8, y:6},
+{x:-3, y:7},{x:-2, y:7},{x:-1, y:7},{x:0, y:7},{x:1, y:7},{x:2, y:7},{x:3, y:7},{x:4, y:7},{x:5, y:7},{x:6, y:7},{x:7, y:7},{x:8, y:7},
+{x:-2, y:8},{x:-1, y:8},{x:0, y:8},{x:1, y:8},{x:2, y:8},{x:3, y:8},{x:4, y:8},{x:5, y:8},{x:6, y:8},{x:7, y:8},
+{x:0, y:9},{x:1, y:9},{x:2, y:9},{x:3, y:9},{x:4, y:9},{x:5, y:9},
+{x:2, y:10},{x:3, y:10},
+]']
+}]
+[H: area = json.set("{}", "offsets", areaOffsets)]
+[H: cond = json.set("{}", "area", area, "Current", 0, "unsetStates",json.append("","Dead"), "layer", json.append("", "object", "hidden", "token"))]
+[H: targets = getTokenNames("json", cond)]
+
+<!--- setting energy type for output --->
+[h, if(EnergyType == 0): Energy = "<b>Fire</b>"]
+[h, if(EnergyType == 1): Energy = "<b>Acid</b>"]
+[h, if(EnergyType == 2): Energy = "<b>Cold</b>"]
+[h, if(EnergyType == 3): Energy = "<b>Sonic</b>"]
+[h, if(EnergyType == 4): Energy = "<b>Electricity</b>"]
+
+<!-- applying damage-->
+CL is <b>[r:CL]</b> and DC is <b>[r:DC] </b>for <b>[r:DMG]</b> of [r:Energy] dmg.
+[H: output = "<table border=0><tr><th>Target &nbsp;</th><th>" + "Save" + " &nbsp;</th>" + "<th>" + "Damage" "</th></tr>"]
+[h, foreach(id,targets, <br>), code:
+{
+<!-- Get token Hit point values -->
+[h: HP = getProperty("HP", id)]
+[h: HPtemp = getProperty("HPtemp", id)]
+
+<!--- Determine Reflex save --->
+[h: RefRoll = 1d20]
+[h: reflex = getProperty("Reflex", id)]
+[h: DexB = getProperty("DexB" , id)]
+[h: RefBonus = getProperty("ReflexBonus" , id)]
+[h: Ref = RefRoll+reflex+DexB+Refbonus]
+
+<!---- Determine DR and ER values --->
+[h: DRERMod = getProperty("DRERMod" ,id)]
+[h, if(EnergyType == 0): ER = json.get(DRERMod, "ER_Fire")]
+[h, if(EnergyType == 1): ER = json.get(DRERMod, "ER_Acid")]
+[h, if(EnergyType == 2): ER = json.get(DRERMod, "ER_Cold")]
+[h, if(EnergyType == 3): ER = json.get(DRERMod, "ER_Sonic")]
+[h, if(EnergyType == 4): ER = json.get(DRERMod, "ER_Electricity")]
+[h: DRER = getProperty("DRER" ,id)]
+[h: DR = json.get(DRER, "Energy Resistance")]
+[h, if(EnergyType == 0): DR = json.get(DR, "Fire")]
+[h, if(EnergyType == 1): DR = json.get(DR, "Acid")]
+[h, if(EnergyType == 2): DR = json.get(DR, "Cold")]
+[h, if(EnergyType == 3): DR = json.get(DR, "Sonic")]
+[h, if(EnergyType == 4): DR = json.get(DR, "Electricity")]
+[h: DMGResist = max(DR, ER)]
+
+
+<!--- get evasion values and modify DMG --->
+[h: evasion = getProperty("evasion", id)]
+[h: impevasion = getProperty("impevasion", id)]
+[h, if(evasion == 1 && impevasion == 0 && Ref >= DC): DMG2 = 0]
+[h, if(evasion == 1 && impevasion == 0 && Ref < DC): DMG2 = DMG]
+[h, if(impevasion == 1 && evasion == 1 && ref >= DC): DMG2 = 0]
+[h, if(impevasion == 1 && evasion == 1 && ref < DC): DMG2 = DMG/2]
+[h, if(evasion == 0 && impevasion == 0 && ref >= DC): DMG2 = DMG/2]
+[h, if(evasion == 0 && impevasion == 0 && ref < DC): DMG2 = DMG]
+<!--- determine if helpless --->
+[h: Dying = getState("Dying", id)]
+[h: Incapacitated = getState("Incapacitated", id)]
+[h: Unconscious = getState("Unconscious", id)]
+[h: Paralyzed = getState("Paralyzed", id)]
+[h,  if(Dying == 1 || Incapacitated == 1 || Unconscious == 1 || Paralyzed == 1): helpless = 1; helpless = 0)]
+[h, if(helpless == 1): DMG2 = DMG)]
+
+
+<!------------ update HPs------------------->
+<!--- dealing with DR --->
+[h: DMG2 = round(DMG2)]
+[h, if(DMGResist > 0): DMG2 = DMG2-DMGResist]
+[h, if(DMG2 < 0): dmg2 = 0]
+<!--- dealing with temp hps --->
+[h, if(HPtemp >= DMG2), code:
+{
+[h: HPtemp = HPtemp-DMG2]
+[h: DMG2 =0]
+[h: setProperty("HPtemp", HPtemp, id)]
+}]
+[h, if(HPtemp < DMG2), code:
+{
+[h: setProperty("HPtemp" , 0, id)]
+[h: DMG2 = DMG2 - HPtemp]
+}]
+
+<!--- updating HP property --->
+[h: setProperty("HP", HP-DMG2, id)]
+
+<!--- update states and HP bars by calling to lib --->
+[tToken= id]
+[H, MACRO( "subUpdateHPStatesBars@Lib:libDnD35Pathfinder" ): "Token=" + tToken]
+
+<!--- fill in individual stats into text list -->
+[H: output = output + "<tr><td>" + id + "</td><td align=center bgcolor=" + if(Ref >= DC, "green", "red") + ">" + Ref + "</td>" + "<td align=center>" + DMG2 + "</td></tr>"]
+}]
+
+[H: output = output + "</table>"]
+[R: output]

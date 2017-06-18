@@ -1,0 +1,69 @@
+rayprofessions rayskillsindex rayskillstat rayuntrainedskills
+
+[h: rayUntrainedSkills = getLibProperty("rayUntrainedSkills")]
+[h: rayskillsindex = json.fields(getLibProperty("rayskillsindex"))]
+
+
+[frame("Skill Management"): {
+  <html>
+    <head>
+      <title>Skill Management</title>
+    </head>
+    <body>
+[H: cancel = input(
+   "tempSkill | " + rayskillsindex + " | Select a skill | LIST | SELECT=" + lastskill,
+   "tempBonus | 0 | Temporary bonus",
+   "take|Roll, Take 10, Take 20|Check Intensity|RADIO|ORIENT=H SELECT=0",
+   "secret|Public, Secret, GM Eyes Only|Secret?|RADIO|ORIENT=H SELECT=" + fGMSecret
+)]
+[H: abort(cancel)] 
+
+    </body>
+  </html>
+}]
+
+[h: attributes = "Hit Points, Armor, Movement"]
+[h: row = "odd"]
+[r, foreach(attrib, attributes, ""), code: {
+    <tr class="[r:row]">
+    <td><b>[r:attrib]:</b></td>
+    <td>[r:getProperty(attrib, id)]</td>
+    </tr>
+    [h: row = if(row=="odd", "even", "odd")]
+}]
+
+
+<!-- Used to make a drop down of selected tokens inside of a frame-->
+[R: listFormat( getSelectedNames( "%%" ), 
+    "<select name='test'>%list</select>", 
+    "<option value='%item'>%item</option>", 
+    "",  
+    "%%" ) 
+]
+
+<!-- Untrained skills-->
+<!-- json array of skills which you can't use without at least one rank in them -->
+[rayUntrainedSkills = '["DecipherScript", "HandleAnimal", "Knowledge", "OpenLock", "Profession", "SleightOfHand", "SpeakLanguage", "Spellcraft", "Tumble", "UseMagicDevice"]']
+
+
+<!-- Craft Subcategory-->
+<!-- object of arrays, key is main category value is array of subcategory of that craft category  -->
+[craftCategories = 
+	'{"Alchemy":["Chemist", "Poisonmaker", "Brewer", "Refiner"], 
+	"Art":["Painter", "Sculpture", "Calligrapher", "Musician"],
+	"Delicates":["Gemcutter", "Tinker", "Embosser", "Jeweler"],
+	"Fabrics":["Leatherworker", "Weaver", "Rigger", "Tailor"],
+	"Machines":["Clocksmith", "SiegeEngines", "Pulleys/levers"],
+	"Mason":["Bricklayer", "Stoneworker", "Polisher", "Glassworker"],
+	"Metalwork":["Weaponsmith", "Armorsmith", "Blacksmith", "Gunsmith"],
+	"Woodwork":["Bowyer", "Shipbuilding", "Martialcarver", "Carpenter"]}']
+[h: setLibProperty("craftCategories", craftCategories , "Lib:ray")]
+
+
+<!-- Profession Subcategory-->
+<!--Json array of professions -->
+[rayProfessions = '["Artist", "Cook", "Criminal", "Explorer", "Fishermen", "Herbalist", "Innkeeper", "Laborer", "Lumberjack", "Merchant", "Midwife", "Miner", "Priest", "Rancher", "Sailor", "Scholar", "Scribe", "Shipwright", "Survival", "Tanner", "Warrior"
+]']
+
+<!-- String Property List-->
+Appraise=IntB ; Balance=DexB ; Bluff=ChaB ; Climb=StrB ; Concentration=ConB ; Craft=IntB; DecipherScript=IntB ; Diplomacy=ChaB ; DisableDevice=IntB ; Disguise=ChaB ; EscapeArtist=DexB ; Forgery=IntB ; GatherInformation=ChaB ; HandleAnimal=ChaB ; Heal=WisB ; Hide=DexB ; Intimidate=ChaB ; Jump=StrB ; KnowledgeArcana=IntB ; KnowledgeBiology=IntB ;  KnowledgeGeography=IntB ; KnowledgeGeography=IntB ;  KnowledgeHistory=IntB ; KnowledgeLocal=IntB ;  KnowledgeNature=IntB ; KnowledgeHistory=IntB ;  KnowledgeLocal=IntB ; KnowledgeMerchant=IntB ;KnowledgeMathmatics=IntB ; KnowledgeNature=IntB ; KnowledgeReligion=IntB ; KnowledgePlanes=IntB ; Listen=WisB ;  MoveSilently=DexB ; OpenLock=DexB ; Perform=ChaB ; Profession=WisB ; Ride=DexB ; Search=IntB ; SenseMotive=WisB ; SleightOfHand=DexB ; Spellcraft=IntB ; Spot=WisB ; Survival=WisB ; Swim=StrB ; Tumble=DexB ; UseMagicDevice=ChaB ; UseRope=DexB  ;
