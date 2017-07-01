@@ -1,15 +1,15 @@
 <!-- Getting list of skills from lib token-->
-[h: rayuntrainedskills = getLibProperty("rayuntrainedskills","lib:ray")]
-[h: rayskillsindex = json.fields(getLibProperty("rayskillsindex","lib:ray"))]
+[h: rayuntrainedskills = getProperty("rayuntrainedskills")]
+[h: rayskillsindexkeys = json.fields(getProperty("rayskillsindex"))]
 
 <!-- Get selected token -->
 [h: selectedToken = getSelected()]
 
 <!-- getting String Property List with skills and their stat mods-->
-[h: statModList= getLibProperty("raySkillStat","lib:ray")]
+[h: statModList= getProperty("raySkillStat")]
 
-<!-- Use json object from lib token to populate drop down menu to choose which skill to check -->
-[h:status=input("skill|"+rayskillsindex+"|Select Skill|LIST|SELECT=0 VALUE=STRING")]
+<!-- Use json object to populate drop down menu to choose which skill to check -->
+[h:status=input("skill|"+rayskillsindexkeys+"|Select Skill|LIST|SELECT=0 VALUE=STRING")]
 [h:abort(status)]
 
 <!-- Rolling die and storing as variable to compare later -->
@@ -44,51 +44,53 @@ default:
 [h: statMod = getStrProp(statModList,skill)]
 [h: statMod = getProperty(statMod,selectedToken)]
 
-<!-- Get other skill modifiers -->
+
+<!-- get other skill mods -->
+<!-- getting a token property which contains all the setup skills with their ranks and other modifiers -->
+[h: skillz = getProperty("raySkills")]
+<!-- get armor check penalty -->
+[h, switch(skill):
+	case "Balance": acPenalty = ArmorCheckPenalty;
+	case "Climb": acPenalty = ArmorCheckPenalty;
+	case "EscapeArtist": acPenalty = ArmorCheckPenalty;
+	case "Hide": acPenalty = ArmorCheckPenalty;
+	case "Jump": acPenalty = ArmorCheckPenalty;
+	case "MoveSilently": acPenalty = ArmorCheckPenalty;
+	case "SleightofHand": acPenalty = ArmorCheckPenalty;
+	case "Swim": acPenalty = ArmorCheckPenalty*2;
+	case "Tumble": acPenalty = ArmorCheckPenalty;	
+	default: acPenalty = 0
+]
 
 
-<!-- switch to match from drop down selection so we can specify the correct mods to add to the check -->
-[switch(skill),code:
-case "Craft":{
-	[h:skill= "Craft (Alchemy) [brewer, refiner, chemist]"]
-	};
-case "KnowledgeArcana":{
-	[h: skill = "Knowledge (Arcana)"] 
-	};
-case "KnowledgeBiology":{
-	[h: skill = "Knowledge (Biology)"] 
-	};
-case "KnowledgeGeography":{
-	[h: skill = "Knowledge (Geography)"] 
-	};
-case "KnowledgeHistory":{
-	[h: skill = "Knowledge (History) [Legends/Decipher Script]"] 
-	};
-case "KnowledgeLocal":{
-	[h: skill = "Knowledge (Local) [Aristocracy, Cityscape]"] 
-	};
-case "KnowledgeMerchant":{
-	[h: skill = "Knowledge (Merchant) [Economics, Contracts/Forgery, Merchant Kings]"] 
-	};
-case "KnowledgeMathmatics":{
-	[h: skill = "Knowledge (Mathmatics) [Architecture]"] 
-	};
-case "KnowledgeNature":{
-	[h: skill = "Knowledge (Nature)"] 
-	};
-case "KnowledgeReligion":{
-	[h:skill = "Knowledge (Religion)"] 
-	};
-case "KnowledgePlanes":{
-	[h: skill = "Knowledge (Planes)"] 
-	};
-case "Perform ":{
-	[h: skill = "Perform (String instrments)"] 
-	};
-case "Profession":{
-	[h: skill = "Profession (barkeep)"] 
-	};
-default: {}]
+<!-- loop to try to find the Json object for the selected skill within the array -->
+[h: rayskillsindex = getProperty("rayskillsindex")]
+[h: raySkills = getProperty("raySkills")]
 
-
-{skill} check: {outputOpen} [dieRoll + statMod] {outputClose}
+[h, FOREACH(object, skillz), CODE: {
+	[skillName = json.get(object, "name")]
+	[skillName = replace(skillName,"\\(","")]
+	[skillName = replace(skillName,"\\)","")]
+	[skillName = replace(skillName," ","")]
+	[lower(skill)]
+	[lower(skillName)]
+	[if(skillName == skill): skillID = ""]
+	[IF(skillName == skill): ranks = json.get(object, "rank"); ranks = 0]
+	[IF(skillName == skill): racialmod = json.get(object, "racialmod"); racialmod = 0]
+	[IF(skillName == skill): synergy = json.get(object, "synergy"); synergy = 0]
+	[IF(skillName == skill): feats = json.get(object, "feats"); feats = 0]
+	[IF(skillName == skill): equip = json.get(object, "equip"); equip = 0]
+	[IF(skillName == skill): misc = json.get(object, "misc"); misc = 0]
+	[IF(skillName == skill): notes = json.get(object, "notes"); notes = 0]
+}]
+skill: [r: skill]<br>
+misc skill mod: [r: SkillMisc]<br>
+stat Mod: [r:statMod]<br>
+AC penalty: [r:acPenalty]<br>
+ranks: [r: ranks]<br>
+racialmod: [r: racialmod]<br>
+synergy: [r: synergy]<br>
+feats: [r: feats]<br>
+equip: [r: equip]<br>
+misc: [r: misc]<br>
+notes: [r: notes]<br>
