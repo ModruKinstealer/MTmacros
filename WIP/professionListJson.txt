@@ -1,0 +1,6 @@
+<!-- object of arrays, key is main category value is array of subcategory of that craft category  -->
+<!--Json array of professions -->
+[rayProfessions = '["Architect", "Artist", "Baker", "Barrister", "Boater", "Brewer", "Butcher", "Clerk", "Cook", "Courtesan", "Criminal", "Driver", "Engineer", "Explorer", "Farmer", "Fishermen", "Gambler", "Gardener", "Guide", "Herbalist", "Herder", "Hunter", "Innkeeper", "Laborer", "Librarian", "Lumberjack", "Merchant", "Midwife", "Miller", "Miner", "Porter", "Priest", "Rancher", "Sailor", "Scholar", "Scribe", "Shepherd", "Shipwright", "Siege engineer", "Soldier", "Soothsayer", "Stablehand", "Survivalist", "Tanner", "Teamster", "Trapper", "Warrior", "Woodcutter"
+]']
+	
+[h: setProperty("rayProfessions", rayProfessions)]

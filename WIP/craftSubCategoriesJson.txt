@@ -1,0 +1,11 @@
+<!-- object of arrays, key is main category value is array of subcategory of that craft category  -->
+[craftCategories = 
+	'{"Alchemy":["Chemist", "Poisonmaker", "Brewer", "Refiner"], 
+	"Art":["Painter", "Sculpture", "Calligrapher", "Musician"],
+	"Delicates":["Gemcutter", "Tinker", "Embosser", "Jeweler"],
+	"Fabrics":["Leatherworker", "Weaver", "Rigger", "Tailor"],
+	"Machines":["Clocksmith", "SiegeEngines", "Pulleys/levers"],
+	"Mason":["Bricklayer", "Stoneworker", "Polisher", "Glassworker"],
+	"Metalwork":["Weaponsmith", "Armorsmith", "Blacksmith", "Gunsmith"],
+	"Woodwork":["Bowyer", "Shipbuilding", "Martialcarver", "Carpenter"]}']
+[h: setProperty("craftCategories", craftCategories)]

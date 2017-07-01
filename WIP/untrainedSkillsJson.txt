@@ -1,0 +1,6 @@
+<!-- Untrained skills-->
+<!-- json array of skills which you can't use without at least one rank in them -->
+[rayUntrainedSkills = '["DecipherScript", "HandleAnimal", "Knowledge", "OpenLock", "Profession", "SleightOfHand", "SpeakLanguage", "Spellcraft", "Tumble", "UseMagicDevice"]']
+
+
+[h: setProperty("rayUntrainedSkills", rayUntrainedSkills)]
