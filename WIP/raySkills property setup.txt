@@ -1,0 +1,62 @@
+<!-- object of arrays, key is main category value is array of subcategory of that craft category  -->
+<!-- need to split them into two sections, first up to open lock then finish rest due to f'd up windows error-->
+
+[h: rayskill = getProperty("raySkills")]
+
+<!--section 1 -->
+[h: appraise = json.set("","name","Appraise","rank",0,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: pause()]
+[h: balance =json.set("","name","Balance","rank",0,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: bluff = json.set("","name","Bluff","rank",8,"classskill",0,"racialmod",0,"synergy",0,"feats",3,"equip",0,"misc",0,"notes","+3 Skill focus (bluff), +2 while in cover identity","altstat","","speedmod",0,"subcat","")]
+[h: climb = json.set("","name","Climb","rank",0,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: concentration = json.set("","name","Concentration","rank",0,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: craftAlchemy = json.set("","name","Craft (Alchemy)","rank",12,"classskill",0,"racialmod",0,"synergy",0,"feats",3,"equip",4,"misc",0,"notes","+2 from tools, +2 from apothecary, +3 from master Apothecary Feat","altstat","","speedmod",0,"subcat","")]
+[h: decipherScript = json.set("","name","Decipher Script","rank",0,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: diplomacy = json.set("","name","Diplomacy","rank",6,"classskill",0,"racialmod",0,"synergy",6,"feats",2,"equip",0,"misc",0,"notes","+2 from sons of Middlering, +6 from synergy (bluff, sense motive, know nobility)","altstat","","speedmod",0,"subcat","")]
+[h: disableDevice = json.set("","name","Disable Device","rank",3,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: disguise = json.set("","name","Disguise","rank",8,"classskill",0,"racialmod",0,"synergy",2,"feats",0,"equip",12,"misc",0,"notes","+10 hat of disguise, +2 synergy-bluff, +2 disguise kit, Quick Change- change disguise in '1d3' minutes, don/remove armor in half the time, +4 when in disuise as cover identity, gather info, +2 while in cover identity","altstat","","speedmod",0,"subcat","")]
+[h: escapeArtist = json.set("","name","Escape Artist","rank",2,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: forgery = json.set("","name","Forgery","rank",1,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","+2 when using Forgery kit","altstat","","speedmod",0,"subcat","")]
+[h: gatherInformation = json.set("","name","Gather Information","rank",8,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: handleAnimal = json.set("","name","Handle Animal","rank",0,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: heal = json.set("","name","Heal","rank",5,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: hide = json.set("","name","Hide","rank",7,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: intimidate = json.set("","name","Intimidate","rank",0,"classskill",0,"racialmod",0,"synergy",2,"feats",0,"equip",0,"misc",0,"notes","+2 synergy-bluff","altstat","","speedmod",0,"subcat","")]
+[h: jump = json.set("","name","Jump","rank",0,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: knowledgeArcana = json.set("","name","Knowledge (Arcana)","rank",0,"classskill",0,"racialmod",0,"synergy",0,"feats",2,"equip",0,"misc",0,"notes","+2 t1 dranite","altstat","","speedmod",0,"subcat","")]
+[h: knowledgeBiology = json.set("","name","Knowledge (Biology)","rank",0,"classskill",0,"racialmod",0,"synergy",0,"feats",3,"equip",0,"misc",0,"notes","+3 t1 dranite","altstat","","speedmod",0,"subcat","")]
+[h: knowledgeGeography = json.set("","name","Knowledge (Geography)","rank",0,"classskill",0,"racialmod",0,"synergy",0,"feats",2,"equip",0,"misc",0,"notes","+2 t1 dranite","altstat","","speedmod",0,"subcat","")]
+[h: knowledgeHistory = json.set("","name","Knowledge (History) ","rank",4,"classskill",0,"racialmod",0,"synergy",0,"feats",2,"equip",0,"misc",0,"notes","+2 from T1 Dranite","altstat","","speedmod",0,"subcat","")]
+[h: knowledgeLocal = json.set("","name","Knowledge (Local)","rank",8,"classskill",0,"racialmod",0,"synergy",0,"feats",2,"equip",0,"misc",0,"notes","+2 from T1 Dranite","altstat","","speedmod",0,"subcat","")]
+[h: knowledgeMerchant = json.set("","name","Knowledge (Merchant) ","rank",12,"classskill",0,"racialmod",0,"synergy",0,"feats",4,"equip",0,"misc",0,"notes","+2 from Sons of MIddlering +2 T1 Dranite","altstat","","speedmod",0,"subcat","")]
+[h: knowledgeMathmatics = json.set("","name","Knowledge (Mathmatics) ","rank",0,"classskill",0,"racialmod",0,"synergy",0,"feats",3,"equip",0,"misc",0,"notes","+3 t1 dranite","altstat","","speedmod",0,"subcat","")]
+[h: knowledgeNature = json.set("","name","Knowledge (Nature)","rank",0,"classskill",0,"racialmod",0,"synergy",0,"feats",3,"equip",0,"misc",0,"notes","+3 t1 dranite","altstat","","speedmod",0,"subcat","")]
+[h: knowledgeReligion = json.set("","name","Knowledge (Religion)","rank",0,"classskill",0,"racialmod",0,"synergy",0,"feats",3,"equip",0,"misc",0,"notes","+3 t1 dranite","altstat","","speedmod",0,"subcat","")]
+[h: knowledgePlanes = json.set("","name","Knowledge (Planes)","rank",0,"classskill",0,"racialmod",0,"synergy",0,"feats",2,"equip",0,"misc",0,"notes","+2 t1 dranite","altstat","","speedmod",0,"subcat","")]
+[h: Listen = json.set("","name","Listen","rank",8,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: moveSilently = json.set("","name","Move Silently","rank",7,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: openLock = json.set("","name","Open Lock","rank",6,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+
+
+<!--section 2 -->
+[h: performStringInstruments = json.set("","name","Perform (String Instruments)","rank",8,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",2,"misc",0,"notes","+2 from MW lute","altstat","","speedmod",0,"subcat","")]
+[h: profession = json.set("","name","Profession","rank",8,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: ride = json.set("","name","Ride","rank",0,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: search = json.set("","name","Search","rank",8,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: senseMotive = json.set("","name","Sense Motive","rank",8,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: sleightOfHand = json.set("","name","Sleight of Hand","rank",7,"classskill",0,"racialmod",0,"synergy",2,"feats",0,"equip",0,"misc",0,"notes"," +2 synergy-bluff","altstat","","speedmod",0,"subcat","")]
+[h: spellcraft = json.set("","name","Spellcraft","rank",0,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: spot = json.set("","name","Spot","rank",7,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","add spymaster lvls to spot scrying sensors","altstat","","speedmod",0,"subcat","")]
+[h: survival = json.set("","name","Survival","rank",0,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: swim = json.set("","name","Swim","rank",0,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: tumble = json.set("","name","Tumble","rank",1,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: useMagicDevice = json.set("","name","Use Magic Device","rank",4,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",0,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+[h: useRope = json.set("","name","Use Rope","rank",1,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",2,"misc",0,"notes","+2 using silk rope","altstat","","speedmod",0,"subcat","")]
+[h: speakLanguage = json.set("","name","Speak Language","rank",0,"classskill",0,"racialmod",0,"synergy",0,"feats",0,"equip",2,"misc",0,"notes","","altstat","","speedmod",0,"subcat","")]
+
+
+
+[h: rayskills = json.append(rayskill,performStringInstruments,profession,ride,search,senseMotive,sleightOfHand,spellcraft,spot,survival,swim,tumble,useMagicDevice,useRope,speakLanguage)]
+
+	
+[h: setProperty("raySkills", raySkills)]
