@@ -25,7 +25,7 @@ case 20:
 };
 case 1:
 {
-    [dieRoll = dieRoll -10]
+    [dieRoll = dieRoll -11]
     [outputOpen = "<b><font color='red'>Nat 1! <br>"]
     [outputClose = "</b></font>"]
 };
@@ -34,15 +34,16 @@ default:
     [outputOpen = ""]
     [outputClose = ""]
 };]
+[h: dieRollText = outputOpen+dieRoll+outputClose] <!-- made this variable so I could use original variable to sum skill roll later -->
 
-
-<!-- Modifying Knowledge skills because the switch cases below weren't matching with the parenthesis for some reason and couldn't figure out how to make it work-->
+<!-- Modifying skill because the switch cases below weren't matching with the parenthesis on the knowledge skills for some reason and couldn't figure out how to make it work-->
 
 [h: skill = replace(skill,"\\(","")]
 [h: skill = replace(skill,"\\)","")]
 [h: skill = replace(skill," ","")]
 [h: statMod = getStrProp(statModList,skill)]
 [h: statMod = getProperty(statMod,selectedToken)]
+
 
 
 <!-- get other skill mods -->
@@ -74,23 +75,34 @@ default:
 	[skillName = replace(skillName," ","")]
 	[lower(skill)]
 	[lower(skillName)]
-	[if(skillName == skill): skillID = ""]
-	[IF(skillName == skill): ranks = json.get(object, "rank"); ranks = 0]
-	[IF(skillName == skill): racialmod = json.get(object, "racialmod"); racialmod = 0]
-	[IF(skillName == skill): synergy = json.get(object, "synergy"); synergy = 0]
-	[IF(skillName == skill): feats = json.get(object, "feats"); feats = 0]
-	[IF(skillName == skill): equip = json.get(object, "equip"); equip = 0]
-	[IF(skillName == skill): misc = json.get(object, "misc"); misc = 0]
-	[IF(skillName == skill): notes = json.get(object, "notes"); notes = 0]
+
+	[IF(skillName == skill): ranks = json.get(object, "rank")]
+	[IF(skillName == skill): racialmod = json.get(object, "racialmod")]
+	[IF(skillName == skill): synergy = json.get(object, "synergy")]
+	[IF(skillName == skill): feats = json.get(object, "feats")]
+	[IF(skillName == skill): equip = json.get(object, "equip")]
+	[IF(skillName == skill): misc = json.get(object, "misc")]
+	[IF(skillName == skill): notes = json.get(object, "notes")]
 }]
-skill: [r: skill]<br>
-misc skill mod: [r: SkillMisc]<br>
-stat Mod: [r:statMod]<br>
-AC penalty: [r:acPenalty]<br>
-ranks: [r: ranks]<br>
-racialmod: [r: racialmod]<br>
-synergy: [r: synergy]<br>
-feats: [r: feats]<br>
-equip: [r: equip]<br>
-misc: [r: misc]<br>
-notes: [r: notes]<br>
+
+<!-- building the output, would like a table outputted with only the variables with non zeros -->
+
+[h: output = "<table>"]
+[h: output = output+'<th><tr><td><b>'+skill+" check:"+'</b></td></tr></th>']
+[h, if(notes != ""): output = output+'<br><tr><td colspan="2"><b>'+"Notes: "+'</b>'+notes+'</td>']
+
+
+[h: output = output+'<tr><td align="right">'+'<b>'+"Roll: "+'</b>'+'</td>'+'<td align="left">'+dieRollText+'</td></tr>']
+[h, if(statMod != 0): output = output+'<tr><td align="right">'+'<b>'+"Stat: "+'</b>'+'</td>'+'<td align="left">'+statMod+'</td></tr>']
+[h, if(ranks != 0): output = output+'<tr><td align="right">'+'<b>'+"Ranks: "+'</b>'+'</td>'+'<td align="left">'+ranks+'</td></tr>']
+[h, if(feats != 0): output = output+'<tr><td align="right">'+'<b>'+"Feats: "+'</b>'+'</td>'+'<td align="left">'+feats+'</td></tr>']
+[h, if(equip != 0): output = output+'<tr><td align="right">'+'<b>'+"Equip: "+'</b>'+'</td>'+'<td align="left">'+equip+'</td></tr>']
+[h, if(misc != 0): output = output+'<tr><td align="right">'+'<b>'+"misc: "+'</b>'+'</td>'+'<td align="left">'+misc+'</td></tr>']
+[h, if(racialmod != 0): output = output+'<tr><td align="right">'+'<b>'+"Racial mod: "+'</b>'+'</td>'+'<td align="left">'+racialmod+'</td></tr>']
+[h, if(SkillMisc != ""): output = output+'<tr><td align="right">'+'<b>'+"Global Misc: "+'</b>'+'</td>'+'<td align="left">'+SkillMisc+'</td></tr>']
+[h, if(acPenalty != 0): output = output+'<tr><td align="right">'+'<b>'+"AC Penalty: "+'</b>'+'</td>'+'<td align="left">'+acPenalty+'</td></tr>']
+[h: totalRoll = sum(dieRoll,statMod,ranks,feats,equip,misc,racialmod,SkillMisc,acPenalty)]
+[h: output = output+'<tr style="background-color:#7FB3D5"><td align="right">'+'<b>'+'Total: '+'</b>'+'</td><td align="left">'+totalRoll+'</td></tr>']
+[h: output = output + '</table>']
+
+[r:output]
