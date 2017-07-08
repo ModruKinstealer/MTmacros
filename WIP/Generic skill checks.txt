@@ -1,15 +1,15 @@
 <!-- Getting list of skills from lib token-->
-[h: rayuntrainedskills = getLibProperty("rayuntrainedskills","lib:ray")]
-[h: rayskillsindex = json.fields(getLibProperty("rayskillsindex","lib:ray"))]
+[h: rayuntrainedskills = getProperty("rayuntrainedskills")]
+[h: rayskillsindexkeys = json.fields(getProperty("rayskillsindex"))]
 
 <!-- Get selected token -->
 [h: selectedToken = getSelected()]
 
 <!-- getting String Property List with skills and their stat mods-->
-[h: statModList= getLibProperty("raySkillStat","lib:ray")]
+[h: statModList= getProperty("raySkillStat")]
 
-<!-- Use json object from lib token to populate drop down menu to choose which skill to check -->
-[h:status=input("skill|"+rayskillsindex+"|Select Skill|LIST|SELECT=0 VALUE=STRING")]
+<!-- Use json object to populate drop down menu to choose which skill to check -->
+[h:status=input("skill|"+rayskillsindexkeys+"|Select Skill|LIST|SELECT=0 VALUE=STRING")]
 [h:abort(status)]
 
 <!-- Rolling die and storing as variable to compare later -->
@@ -25,7 +25,7 @@ case 20:
 };
 case 1:
 {
-    [dieRoll = dieRoll -10]
+    [dieRoll = dieRoll -11]
     [outputOpen = "<b><font color='red'>Nat 1! <br>"]
     [outputClose = "</b></font>"]
 };
@@ -34,9 +34,9 @@ default:
     [outputOpen = ""]
     [outputClose = ""]
 };]
+[h: dieRollText = outputOpen+dieRoll+outputClose] <!-- made this variable so I could use original variable to sum skill roll later -->
 
-
-<!-- Modifying Knowledge skills because the switch cases below weren't matching with the parenthesis for some reason and couldn't figure out how to make it work-->
+<!-- Modifying skill because the switch cases below weren't matching with the parenthesis on the knowledge skills for some reason and couldn't figure out how to make it work-->
 
 [h: skill = replace(skill,"\\(","")]
 [h: skill = replace(skill,"\\)","")]
@@ -44,51 +44,65 @@ default:
 [h: statMod = getStrProp(statModList,skill)]
 [h: statMod = getProperty(statMod,selectedToken)]
 
-<!-- Get other skill modifiers -->
 
 
-<!-- switch to match from drop down selection so we can specify the correct mods to add to the check -->
-[switch(skill),code:
-case "Craft":{
-	[h:skill= "Craft (Alchemy) [brewer, refiner, chemist]"]
-	};
-case "KnowledgeArcana":{
-	[h: skill = "Knowledge (Arcana)"] 
-	};
-case "KnowledgeBiology":{
-	[h: skill = "Knowledge (Biology)"] 
-	};
-case "KnowledgeGeography":{
-	[h: skill = "Knowledge (Geography)"] 
-	};
-case "KnowledgeHistory":{
-	[h: skill = "Knowledge (History) [Legends/Decipher Script]"] 
-	};
-case "KnowledgeLocal":{
-	[h: skill = "Knowledge (Local) [Aristocracy, Cityscape]"] 
-	};
-case "KnowledgeMerchant":{
-	[h: skill = "Knowledge (Merchant) [Economics, Contracts/Forgery, Merchant Kings]"] 
-	};
-case "KnowledgeMathmatics":{
-	[h: skill = "Knowledge (Mathmatics) [Architecture]"] 
-	};
-case "KnowledgeNature":{
-	[h: skill = "Knowledge (Nature)"] 
-	};
-case "KnowledgeReligion":{
-	[h:skill = "Knowledge (Religion)"] 
-	};
-case "KnowledgePlanes":{
-	[h: skill = "Knowledge (Planes)"] 
-	};
-case "Perform ":{
-	[h: skill = "Perform (String instrments)"] 
-	};
-case "Profession":{
-	[h: skill = "Profession (barkeep)"] 
-	};
-default: {}]
+<!-- get other skill mods -->
+<!-- getting a token property which contains all the setup skills with their ranks and other modifiers -->
+[h: skillz = getProperty("raySkills")]
+<!-- get armor check penalty -->
+[h, switch(skill):
+	case "Balance": acPenalty = ArmorCheckPenalty;
+	case "Climb": acPenalty = ArmorCheckPenalty;
+	case "EscapeArtist": acPenalty = ArmorCheckPenalty;
+	case "Hide": acPenalty = ArmorCheckPenalty;
+	case "Jump": acPenalty = ArmorCheckPenalty;
+	case "MoveSilently": acPenalty = ArmorCheckPenalty;
+	case "SleightofHand": acPenalty = ArmorCheckPenalty;
+	case "Swim": acPenalty = ArmorCheckPenalty*2;
+	case "Tumble": acPenalty = ArmorCheckPenalty;	
+	default: acPenalty = 0
+]
 
 
-{skill} check: {outputOpen} [dieRoll + statMod] {outputClose}
+<!-- loop to try to find the Json object for the selected skill within the array -->
+[h: rayskillsindex = getProperty("rayskillsindex")]
+[h: raySkills = getProperty("raySkills")]
+
+[h, FOREACH(object, skillz), CODE: {
+	[skillName = json.get(object, "name")]
+	[skillName = replace(skillName,"\\(","")]
+	[skillName = replace(skillName,"\\)","")]
+	[skillName = replace(skillName," ","")]
+	[lower(skill)]
+	[lower(skillName)]
+
+	[IF(skillName == skill): ranks = json.get(object, "rank")]
+	[IF(skillName == skill): racialmod = json.get(object, "racialmod")]
+	[IF(skillName == skill): synergy = json.get(object, "synergy")]
+	[IF(skillName == skill): feats = json.get(object, "feats")]
+	[IF(skillName == skill): equip = json.get(object, "equip")]
+	[IF(skillName == skill): misc = json.get(object, "misc")]
+	[IF(skillName == skill): notes = json.get(object, "notes")]
+}]
+
+<!-- building the output, would like a table outputted with only the variables with non zeros -->
+
+[h: output = "<table>"]
+[h: output = output+'<th><tr><td><b>'+skill+" check:"+'</b></td></tr></th>']
+[h, if(notes != ""): output = output+'<br><tr><td colspan="2"><b>'+"Notes: "+'</b>'+notes+'</td>']
+
+
+[h: output = output+'<tr><td align="right">'+'<b>'+"Roll: "+'</b>'+'</td>'+'<td align="left">'+dieRollText+'</td></tr>']
+[h, if(statMod != 0): output = output+'<tr><td align="right">'+'<b>'+"Stat: "+'</b>'+'</td>'+'<td align="left">'+statMod+'</td></tr>']
+[h, if(ranks != 0): output = output+'<tr><td align="right">'+'<b>'+"Ranks: "+'</b>'+'</td>'+'<td align="left">'+ranks+'</td></tr>']
+[h, if(feats != 0): output = output+'<tr><td align="right">'+'<b>'+"Feats: "+'</b>'+'</td>'+'<td align="left">'+feats+'</td></tr>']
+[h, if(equip != 0): output = output+'<tr><td align="right">'+'<b>'+"Equip: "+'</b>'+'</td>'+'<td align="left">'+equip+'</td></tr>']
+[h, if(misc != 0): output = output+'<tr><td align="right">'+'<b>'+"misc: "+'</b>'+'</td>'+'<td align="left">'+misc+'</td></tr>']
+[h, if(racialmod != 0): output = output+'<tr><td align="right">'+'<b>'+"Racial mod: "+'</b>'+'</td>'+'<td align="left">'+racialmod+'</td></tr>']
+[h, if(SkillMisc != ""): output = output+'<tr><td align="right">'+'<b>'+"Global Misc: "+'</b>'+'</td>'+'<td align="left">'+SkillMisc+'</td></tr>']
+[h, if(acPenalty != 0): output = output+'<tr><td align="right">'+'<b>'+"AC Penalty: "+'</b>'+'</td>'+'<td align="left">'+acPenalty+'</td></tr>']
+[h: totalRoll = sum(dieRoll,statMod,ranks,feats,equip,misc,racialmod,SkillMisc,acPenalty)]
+[h: output = output+'<tr style="background-color:#7FB3D5"><td align="right">'+'<b>'+'Total: '+'</b>'+'</td><td align="left">'+totalRoll+'</td></tr>']
+[h: output = output + '</table>']
+
+[r:output]
