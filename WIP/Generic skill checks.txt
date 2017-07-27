@@ -42,7 +42,7 @@ default:
 [h: skill = replace(skill,"\\)","")]
 [h: skill = replace(skill," ","")]
 [h: statMod = getStrProp(statModList,skill)]
-[h: statMod = getProperty(statMod,selectedToken)]
+[h: statMod = getProperty(statMod)]
 
 
 
