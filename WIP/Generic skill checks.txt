@@ -9,8 +9,12 @@
 [h: statModList= getProperty("raySkillStat")]
 
 <!-- Use json object to populate drop down menu to choose which skill to check -->
-[h:status=input("skill|"+rayskillsindexkeys+"|Select Skill|LIST|SELECT=0 VALUE=STRING")]
-[h:abort(status)]
+[h: abort(input(
+	"skill|"+rayskillsindexkeys+"|Select Skill|LIST|SELECT=0 VALUE=STRING",
+	"tempBonus | 0 | Temporary bonus",
+	"take10 | Roll, Take 10, Take 20| Skill check baseline| RADIO | ORIENT=H SELECT=0",
+	"visibility | Public, GM,| Skill result visibility| RADIO | ORIENT=H SELECT=0"
+	))]
 
 <!-- Rolling die and storing as variable to compare later -->
 [h: dieRoll = d20]
@@ -34,6 +38,14 @@ default:
     [outputOpen = ""]
     [outputClose = ""]
 };]
+<!--- modify dieroll, outputOpen, and outputClose if take10 option set -->
+[h, if(take10 == 1): dieRoll =10]
+[h, if(take10 == 1): outputOpen = "Take 10"]
+[h, if(take10 == 1): outputClose = ""]
+[h, if(take10 == 2): dieRoll =20]
+[h, if(take10 == 2): outputOpen = "Take 20"]
+[h, if(take10 == 2): outputClose = ""]
+
 [h: dieRollText = outputOpen+dieRoll+outputClose] <!-- made this variable so I could use original variable to sum skill roll later -->
 
 <!-- Modifying skill because the switch cases below weren't matching with the parenthesis on the knowledge skills for some reason and couldn't figure out how to make it work-->
@@ -85,7 +97,52 @@ default:
 	[IF(skillName == skill): notes = json.get(object, "notes")]
 }]
 
+
+<!-- switch to match to knowledge,craft, perform, and profession skills so can get sub categories listed properly -->
+[switch(skill),code:
+case "Craft":{
+	[h:skill= "Craft (Alchemy) [brewer, refiner, chemist]"]
+	};
+case "KnowledgeArcana":{
+	[h: skill = "Knowledge (Arcana)"] 
+	};
+case "KnowledgeBiology":{
+	[h: skill = "Knowledge (Biology)"] 
+	};
+case "KnowledgeGeography":{
+	[h: skill = "Knowledge (Geography)"] 
+	};
+case "KnowledgeHistory":{
+	[h: skill = "Knowledge (History) [Legends/Decipher Script, Isles]"] 
+	};
+case "KnowledgeLocal":{
+	[h: skill = "Knowledge (Local) [Aristocracy, Cityscape]"] 
+	};
+case "KnowledgeMerchant":{
+	[h: skill = "Knowledge (Merchant) [Economics, Contracts/Forgery, Merchant Kings]"] 
+	};
+case "KnowledgeMathmatics":{
+	[h: skill = "Knowledge (Mathmatics) [Architecture]"] 
+	};
+case "KnowledgeNature":{
+	[h: skill = "Knowledge (Nature)"] 
+	};
+case "KnowledgeReligion":{
+	[h:skill = "Knowledge (Religion)"] 
+	};
+case "KnowledgePlanes":{
+	[h: skill = "Knowledge (Planes)"] 
+	};
+case "Perform ":{
+	[h: skill = "Perform (String instrments)"] 
+	};
+case "Profession":{
+	[h: skill = "Profession (barkeep)"] 
+	};
+default: {}]
+
 <!-- building the output, would like a table outputted with only the variables with non zeros -->
+
 
 [h: output = "<table>"]
 [h: output = output+'<th><tr><td><b>'+skill+" check:"+'</b></td></tr></th>']
@@ -101,8 +158,10 @@ default:
 [h, if(racialmod != 0): output = output+'<tr><td align="right">'+'<b>'+"Racial mod: "+'</b>'+'</td>'+'<td align="left">'+racialmod+'</td></tr>']
 [h, if(SkillMisc != ""): output = output+'<tr><td align="right">'+'<b>'+"Global Misc: "+'</b>'+'</td>'+'<td align="left">'+SkillMisc+'</td></tr>']
 [h, if(acPenalty != 0): output = output+'<tr><td align="right">'+'<b>'+"AC Penalty: "+'</b>'+'</td>'+'<td align="left">'+acPenalty+'</td></tr>']
-[h: totalRoll = sum(dieRoll,statMod,ranks,feats,equip,misc,racialmod,SkillMisc,acPenalty)]
+[h, if(tempBonus != 0): output = output+'<tr><td align="right">'+'<b>'+"Temp bonus: "+'</b>'+'</td>'+'<td align="left">'+tempBonus+'</td></tr>']
+[h: totalRoll = sum(dieRoll,statMod,ranks,feats,equip,misc,racialmod,SkillMisc,acPenalty,tempBonus)]
 [h: output = output+'<tr style="background-color:#7FB3D5"><td align="right">'+'<b>'+'Total: '+'</b>'+'</td><td align="left">'+totalRoll+'</td></tr>']
 [h: output = output + '</table>']
 
-[r:output]
+[g, if(visibility==1):output]
+[r, if(visibility==0):output]
