@@ -11,3 +11,14 @@ Macro to allow to store and view gm notes for a token using  properties on a lib
 while still allowing players to save their tokens locally
 
 __________
+
+Website for character creation
+  option to store data on googledrive/drop box/onedrive/local HD/.. others?
+  support for 3.5 and 5.0
+  support for home brew stuff
+  DB? (store data in csv,spreadsheet, or some kind of SQL db?)
+  ability to save each character, have multiple open on tabs
+  ability to 'export' to a token for Maptools or roll20?
+  spell/inventory management
+  
+__________
